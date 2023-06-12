@@ -62,6 +62,7 @@ WAREHOUSE;
                 <form method="get">
                     <table >
                         <tr>
+                            <th class="checkbox"></th>
                             <th>id</th>
                             <th>nazwa</th>
                             <th>magazyn</th>
@@ -104,13 +105,8 @@ WAREHOUSE;
                             $sql = $_SESSION["lastsql"];
                             $find = $_SESSION["search"];
                             $search_check = true;
-                            echo "xdxdxd";
                         }
                         $sql.=$sql2;
-                        echo $find."</br>".$sql;
-//                        echo $_SESSION["searchcheck"];
-
-//                        if($_SESSION["searchcheck"])
                         if($search_check){
                             $exe = $conn->execute_query($sql,[$find,$find,$find]);
                             echo "yes";
@@ -150,7 +146,8 @@ WAREHOUSE;
                         while($user = $exe1->fetch_assoc()){
                             echo <<< TABLEUSERS
                                       <tr>
-                                        <td class="info"><input type="checkbox" name="checkboxvar[]" value = "$user[id]">$user[id]</td>
+                                        <td class="info checkbox"><input type="checkbox" name="checkboxvar[]" value = "$user[id]"></td>
+                                        <td class="info">$user[id]</td>
                                         <td class="info">$user[name]</td>
                                         <td class="info" >$user[warehouse]</td>
                                         <td class="info">$user[quantity]</td>

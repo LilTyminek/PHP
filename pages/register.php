@@ -19,8 +19,8 @@
             <input type="text" placeholder="nazwisko" name="surname"><br>
             <input type="text" placeholder="login" name="email" ><br>
             <input type="text" placeholder="powtorz login" name="email2" ><br>
-            <input type="text" placeholder="haslo" name="new-pass"><br>
-            <input type="text" placeholder="powtorz haslo" name="new-pass2"><br>
+            <input type="password" placeholder="haslo" name="new-pass"><br>
+            <input type="password" placeholder="powtorz haslo" name="new-pass2"><br>
             <label>Terms</label><input type="checkbox" name="terms">
             <button type="submit">Zarejestruj</button>
         </form>
