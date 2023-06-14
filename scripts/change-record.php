@@ -1,61 +1,55 @@
 <?php
 session_start();
 require_once "./connect.php";
-$sea = "SELECT id,name,warehouse,quantity from staff where id=\"$_POST[ean]\"";
-$conn->query($sea);
+$sql = "SELECT * from staff where id=?";
+$ean = $_POST["EAN"];
+$name = $_POST["name"];
+$ware = $_POST["warehouse"];
+$qua = $_POST["qua"];
+$zap = "";
+$exe = $conn->execute_query($sql,[$ean]);
+//$conn->query($sea);
 if($conn->affected_rows > 0){
-    $result = $conn->query($sea);
-    $id = $_POST["ean"];
-    $name = $_POST["name"];
-    $ware = $_POST["warehouse"];
-    $qua = $_POST["qua"];
-    if(!isset($id)){
+    $result = $exe->fetch_assoc();
+    if(!isset($ean)){
         $_SESSION["FAILURE"] = "EAN nie moze byc pusty";
-        header("location:../main.php");
+//        header("location:../pages/views/main.php");
         exit();
     }
-    $sql1 = "UPDATE staff set ";
-    $sql2 = " ";
-    $sql3 = " WHERE id = $id";
+    $sql1 = "UPDATE staff set name = ?, warehouse = ?, quantity = ? WHERE id = ?";
     $isok = TRUE;
     if(empty($name) && empty($ware) && empty($qua)){
         $isok = FALSE;
     }
     else{
-        if(!empty($name)){
-            $sql2 .= "name = \"$name\"";
+        if(empty($name)){
+            $name = $result["name"];
         }
-        if(!empty($ware)){
-            if(!empty($name)) $sql2 = $sql2.", ";
-            $sql2 .= "warehouse = \"$ware\"";
+        if(empty($ware)){
+            $ware = $result["warehouse"];
         }
-        if(!empty($qua)){
-            if($qua<0){
-                $isok = FALSE;
-            }
-            if(!empty($ware) || !empty($name)) $sql2 .= ", ";
-            $sql2 .= "quantity = $qua";
+        if(empty($qua)){
+            $qua = $result["quantity"];
+        }
+        else if($qua<0) $isok=false;
+        $zap = $sql1;
 
-        }
-        $sql = $sql1.$sql2.$sql3;
-        echo $sql;
     }
     if($isok) {
-        $conn->query($sql);
+        $exe1 = $conn->execute_query($zap,[$name,$ware,$qua,$ean]);
         if($conn->affected_rows>0) {
             $_SESSION["SUCCESS"] = "Zmieniono rekord";
-            header("location: ../main.php");
+            header("location: ../pages/views/main.php");
         }
         else $_SESSION["FAILURE"] = "Nie zmieniono rekordu";
-        header("location: ../main.php");
+        header("location: ../pages/views/main.php");
     }
     else {
-        $_SESSION["FAILURE"] = "Nie zmieniono rekordu";
-        header("location: ../main.php");
+        $_SESSION["FAILURE"] = "Nie zmieniono rekordu, coś poszło nie tak";
+        header("location: ../pages/views/main.php");
     }
 
-
-
 //"UPDATE staff set name = $name, quantity = $qua where id = $id"
-
 }
+$conn->close();
+exit();

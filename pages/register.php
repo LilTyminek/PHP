@@ -12,6 +12,9 @@
         if(isset($_SESSION["error"])){
             echo $_SESSION["error"];
         }
+        if(isset($_SESSION["SUCCESS"])){
+            echo $_SESSION["SUCCESS"];
+        }
     ?>
     <div class="register-container">
         <form method="post">
@@ -69,11 +72,15 @@
             $sql1 = "INSERT INTO `user_table` (`email`,`password`) values (?,?)";
             $pass = password_hash($_POST["new-pass"],PASSWORD_DEFAULT);
             $exe1 = $conn->execute_query($sql1,[$email,$pass]);
-            if($sql1->affected_rows>0){
-                echo "Stworzono usera $email";
+            if($conn->affected_rows>0){
+                $_SESSION["SUCCESS"]  =  "Stworzono usera $email";
+                exit();
+
             }
             else {
                 $_SESSION["error"] = "nie git";
+                exit();
+
             }
         }
     }

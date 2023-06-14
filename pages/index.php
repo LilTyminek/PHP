@@ -30,8 +30,8 @@
         $user = $exe->fetch_assoc();
         if($conn->affected_rows>0){
             $pass = $_POST["password"];
-            $role_id = $user["role_id"];
             if(password_verify($pass,$user["password"])){
+                $role_id = $user["role_id"];
                 echo "jest";
                 session_start();
                 $_SESSION["username"]=$_POST["email"];
@@ -40,7 +40,7 @@
                 exit();
             }
             else{
-                echo "Błędne dane logowania";
+                echo "Błędne haslo";
             }
         }
         else echo "Błędne dane logowania";

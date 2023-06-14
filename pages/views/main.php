@@ -59,7 +59,7 @@ WAREHOUSE;
                 ?>
             </div>
             <div class="inv">
-                <form method="get">
+                <form method="post">
                     <table >
                         <tr>
                             <th class="checkbox"></th>
@@ -162,21 +162,17 @@ TABLEUSERS;
                         }
                         $_GET["page"] = $page_number;
 
+                        if($role_id=='3' || $role_id=='2'){
+                            require_once "./admin/edit-table.php";
+                            header("Refresh:0");
 
-                        echo "</br";
-                        //$conn->close();
+                        }
+                        $conn->close();
                         ?>
-
-                        <input type="submit" value="Usuń zaznaczone przedmioty" name="delete">
                 </form>
 
                     </div>
 
-                <?php
-                if($role_id=='3' || $role_id=='2'){
-                    require_once "./admin/edit-table.php";
-                }
-                ?>
         </div>
     </body>
 </html>
