@@ -29,7 +29,6 @@ session_start();
         foreach ($_POST as $value){
             if (empty($value)){
                 $_SESSION["error"] = "Wypełnij wszystkie pola!";
-                echo "Wypelnij wyszystkie pola";
                 exit();
             }
         }
@@ -40,7 +39,6 @@ session_start();
             $pass = $_POST["password"];
             if(password_verify($pass,$user["password"])){
                 $role_id = $user["role_id"];
-                echo "jest";
                 $_SESSION["username"]=$_POST["email"];
                 $_SESSION["role_id"]=$role_id;
                 $_SESSION["session_id"]=session_id();
@@ -49,10 +47,10 @@ session_start();
                 exit();
             }
             else{
-                echo "Błędne haslo";
+                $_SESSION["error"] = "Błędne haslo";
             }
         }
-        else echo "Błędne dane logowania";
+        else $_SESSION["error"] = "Błędne dane logowania";
     }
 
 ?>

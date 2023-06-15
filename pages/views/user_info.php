@@ -24,6 +24,10 @@
                     echo $_SESSION["success"];
                     unset($_SESSION["success"]);
                 }
+                if(isset($_SESSION["pass-error"])){
+                    echo $_SESSION["pass-error"];
+                    unset($_SESSION["pass-error"]);
+                }
             ?>
         </div>
         <div class="menudiv"><a href="../">Wróć</a></div>
@@ -72,7 +76,6 @@ CHANGEPASS;
                     foreach ($_POST as $value){
                         if (empty($value)){
                             $_SESSION["pass-error"] = "Wypełnij wszystkie pola!";
-                            echo $_SESSION["pass-error"];
                             exit();
                         }
                     }
@@ -81,7 +84,6 @@ CHANGEPASS;
                     $exe = $conn->execute_query($sql,[$email]);
                     $user = $exe->fetch_assoc();
                     $old_pass = $_POST["old-pass"];
-//                    echo $user["password"];
 
                     if(password_verify($old_pass,$user["password"])){
                         $new_pass = $_POST["new-pass"];
@@ -97,7 +99,6 @@ CHANGEPASS;
                             $error = 1;
                         }
                         if ($error != 0){
-                            echo $_SESSION["pass-error"];
                             exit();
                         }
                         $pass = password_hash($new_pass,PASSWORD_DEFAULT);
@@ -112,7 +113,7 @@ CHANGEPASS;
                         }
                     }
                     else {
-                        echo "Nie prawidłowe hasło";
+                        $_SESSION["pass-error"] = "Nie prawidłowe hasło";
                         exit();
                     }
                 }

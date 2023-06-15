@@ -23,7 +23,6 @@ if(isset($_POST["add"])){
                             <input type="submit" name="addsub">
 </form>
 ADDRECORD;
-    echo "sdasd";
 exit();
 }
 else if(isset($_POST["change"])){

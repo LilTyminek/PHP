@@ -104,17 +104,14 @@ USERS;
                         $sql.=$sql2;
                         if($search_check){
                             $exe = $conn->execute_query($sql,[$find,$find,$find]);
-                            echo "yes";
                         }
                         else{
-                            echo "no";
                             $exe = $conn->execute_query($sql);
                         }
                         $user = $exe->fetch_assoc();
 
                         //pagination
                         $total_rows = mysqli_num_rows($exe);
-                        echo $total_rows;
                         $limit = 10;
                         $total_pages = ceil ($total_rows / $limit);
 
@@ -128,16 +125,13 @@ USERS;
 //                        if($_SESSION["searchcheck"])
                         if($search_check) {
                             $exe1 = $conn->execute_query($sql,[$find,$find,$find]);
-                            echo "yes";
 
                         }
                         else{
                             $exe1 = $conn->execute_query($sql);
-                            echo "no";
 
                         }
                         //fetch
-                        echo "</br></br></br>".$sql." ".$total_rows;
                         while($user = $exe1->fetch_assoc()){
                             echo <<< TABLEUSERS
                                       <tr>

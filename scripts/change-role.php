@@ -20,10 +20,8 @@ if(isset($_POST["email"]) && isset($_POST["role"])){
         $isok = false;
     }
     if($isok){
-        echo "yes";
         $sql = "UPDATE user_table set role_id = ? where id = ?";
         $exe = $conn->execute_query($sql,[$role_id,$id]);
-        echo $id." ".$role_id;
         if($conn->affected_rows>0){
             $_SESSION["SUCCESS"]= "jest git";
             header("location: ../pages/views/admin/users.php");
@@ -34,7 +32,7 @@ if(isset($_POST["email"]) && isset($_POST["role"])){
         }
     }
     else{
-        echo "dupa";
+        $_SESSION["error"] = "Cos poszlo nie tak";
     }
 //    $conn->close();
 }

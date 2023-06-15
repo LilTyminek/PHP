@@ -36,7 +36,6 @@
         foreach ($_POST as $value){
             if (empty($value)){
                 $_SESSION["error"] = "Wypełnij wszystkie pola!";
-                echo "Wypelnij wyszystkie pola";
                 exit();
             }
         }
