@@ -11,10 +11,12 @@
     <?php
     session_start();
         if(isset($_SESSION["error"])){
-            echo $_SESSION["error"];
+//            echo $_SESSION["error"];
+            unset($_SESSION["error"]);
         }
         if(isset($_SESSION["SUCCESS"])){
             echo $_SESSION["SUCCESS"];
+            unset($_SESSION["SUCCESS"]);
         }
     ?>
     <div class="register-container">
@@ -33,27 +35,29 @@
 <?php
     require_once "../scripts/connect.php";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $error = 0;
         foreach ($_POST as $value){
             if (empty($value)){
+                $error = 1;
                 $_SESSION["error"] = "Wypełnij wszystkie pola!";
                 exit();
             }
         }
-        $error = 0;
         if (!isset($_POST["terms"])){
-            $_SESSION["error"] = "Zaznacz regulamin!";
+             $_SESSION["error"] = "Zaznacz regulamin!";
             $error = 1;
         }
         if ($_POST["new-pass"] != $_POST["new-pass2"]){
-            $_SESSION["error"] = "Hasła są różne!";
+
+             $_SESSION["error"] = "Hasła są różne!";
             $error = 1;
         }
         if ($_POST["email"] != $_POST["email2"]){
-            $_SESSION["error"] = "Adresy email są różne!";
+             $_SESSION["error"] = "Adresy email są różne!";
             $error = 1;
         }
         if(strlen($_POST["new-pass"])<8){
-            $_SESSION["error"] = "Haslo jest za krotkie";
+             $_SESSION["error"] = "Haslo jest za krotkie";
             $error = 1 ;
         }
         if ($error != 0){
@@ -74,12 +78,12 @@
             $exe1 = $conn->execute_query($sql1,[$email,$pass]);
             if($conn->affected_rows>0){
                 $_SESSION["SUCCESS"]  =  "Stworzono usera $email";
-                exit();
+//                exit();
 
             }
             else {
                 $_SESSION["error"] = "nie git";
-                exit();
+//                exit();
 
             }
         }

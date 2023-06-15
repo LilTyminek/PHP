@@ -14,6 +14,17 @@ session_start();
             header("location: ./views/main.php");
         }
     }
+if(isset($_SESSION["error"])){
+    echo $_SESSION["error"];
+    unset($_SESSION["error"]);
+}
+if(isset($_SESSION["success"])){
+    echo $_SESSION["success"];
+    unset($_SESSION["success"]);
+}
+if(isset($_SESSION["pass-error"])){
+    unset($_SESSION["pass-error"]);
+}
 ?>
     <div class="login-container">
         <form method="post" >
@@ -47,10 +58,16 @@ session_start();
                 exit();
             }
             else{
-                $_SESSION["error"] = "Błędne haslo";
+                echo $_SESSION["pass-error"] = "Błędne haslo";
+                exit();
             }
         }
-        else $_SESSION["error"] = "Błędne dane logowania";
+        else {
+            echo $_SESSION["pass-error"] = "Błędne dane logowania";
+            exit();
+
+        }
+
     }
 
 ?>
