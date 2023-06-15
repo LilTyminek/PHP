@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Informacje</title>
@@ -10,7 +11,11 @@
     <div class="menu">
         <div class="error message">
             <?php
-                session_start();
+            session_start();
+            if(empty($_SESSION["session_id"])){
+                echo "<a href='../index.php'>blad</a>";
+                exit();
+            }
                 if(isset($_SESSION["error"])){
                     echo $_SESSION["error"];
                     unset($_SESSION["error"]);

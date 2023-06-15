@@ -9,6 +9,7 @@
 </head>
 <body class="hold-transition register-page">
     <?php
+    session_start();
         if(isset($_SESSION["error"])){
             echo $_SESSION["error"];
         }

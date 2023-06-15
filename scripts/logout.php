@@ -9,6 +9,8 @@ session_unset();
 // Destroy the session
 session_destroy();
 
+unset($_COOKIE["name"]);
+
 // Redirect to the login page
 header("Location: ../pages/index.php");
 exit;

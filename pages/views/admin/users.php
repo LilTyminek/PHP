@@ -11,6 +11,10 @@
     <div class="error message">
         <?php
         session_start();
+        if(empty($_SESSION["username"])){
+            echo "<a href='../../index.php'>Zaloguj sie</a>";
+            exit();
+        }
         if(isset($_SESSION["error"])) {
             echo $_SESSION["error"];
             unset($_SESSION["error"]);
@@ -34,7 +38,7 @@
         require_once ("../../../scripts/connect.php");
         $sql = "SELECT * FROM user_table";
         $exe = $conn->execute_query($sql);
-        $rolename;
+        $rolename = "";
         while($user = $exe->fetch_assoc()){
             switch ($user["role_id"]){
                 case (1):
@@ -63,8 +67,8 @@ SHOWUSERS;
     <div class="role-change">
         <?php
             if(isset($_POST["new-role"])){
-                echo<<<CHANGE
-                <form method="post">
+                echo <<<CHANGE
+                <form method="post" action="../../../scripts/change-role.php">
                 <input type="text" name="email" placeholder="email">
                 <select name="role">
                 <option value="1">Quest</option>
@@ -74,30 +78,9 @@ SHOWUSERS;
 <input type="submit" name="sub-change">
 </form>
 CHANGE;
-
-                if(isset($_POST["sub-change"])){
-                    $email = $_POST["email"];
-                    $new_role = $_POST["role"];
-                    if(!empty($email) && !empty($new_role)){
-                        $sql="UPDATE user_table set role_id = ? where id=?";
-                        $exe = $conn->execute_query($sql,[$new_role,$email]);
-                        echo "ez";
-                        exit();
-                        if($conn->affected_rows>0){
-                            $_SESSION["SUCCESS"] = "git";
-                            header("location: ../");
-                            exit();
-                        }
-                        else{
-                            $_SESSION["SUCCESS"] = "nie git";
-                            header("location: ../");
-                            exit();
-                        }
-                    }
-                    else{
-                        echo "uzupelnij pola";
-                    }
-                }
+            }
+            if(isset($_POST["sub-change"])){
+                require_once "../../../scripts/change-role.php";
             }
         ?>
     </div>

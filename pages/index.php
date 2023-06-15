@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body >
+<?php
+session_start();
+    if(isset($_COOKIE["name"]) && isset($_SESSION["session_id"])){
+        if($_COOKIE["name"]==$_SESSION["session_id"]){
+            header("location: ./views/main.php");
+        }
+    }
+?>
     <div class="login-container">
         <form method="post" >
             <input type="text" placeholder="email" name="email"><br>
@@ -33,9 +41,10 @@
             if(password_verify($pass,$user["password"])){
                 $role_id = $user["role_id"];
                 echo "jest";
-                session_start();
                 $_SESSION["username"]=$_POST["email"];
                 $_SESSION["role_id"]=$role_id;
+                $_SESSION["session_id"]=session_id();
+                setcookie("name",session_id(), time()+(86400 * 30),'/','localhost');
                 header("location: ./views/main.php");
                 exit();
             }

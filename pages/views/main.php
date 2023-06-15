@@ -33,14 +33,9 @@
                         <?php
                         if($role_id=='3' ){
                             echo <<<USERS
-                            <div class="info"><a href="./admin/users.php">Użytkownicy</a></div>
+                            <div class="info"><a href="./admin/users.php">Użytkownicy</a></div></br>
 USERS;
 
-                        }
-                        if($role_id=='3' || $role_id=='2'){
-                            echo <<<WAREHOUSE
-                            <div class="info"><a href="./admin/werehouse.php">Magazyny</a></div>
-WAREHOUSE;
                         }
                         ?>
                         <div class="menudiv">
@@ -164,8 +159,7 @@ TABLEUSERS;
 
                         if($role_id=='3' || $role_id=='2'){
                             require_once "./admin/edit-table.php";
-                            header("Refresh:0");
-
+                            header("location:./");
                         }
                         $conn->close();
                         ?>

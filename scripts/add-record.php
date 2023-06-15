@@ -16,41 +16,19 @@ $name = $_POST["name"];
 $ware = $_POST["warehouse"];
 $qua = $_POST["qua"];
 if($conn->affected_rows > 0){
-    $user = $result->fetch_assoc();
     if($user["quantity"]==0){
         if(!isset($id)){
             $_SESSION["FAILURE"] = "EAN nie moze byc pusty";
             header("location:../pages/views/main.php");
             exit();
         }
-        $sql1 = "UPDATE staff set ";
-        $sql2 = " ";
-        $sql3 = " WHERE id = $id";
         $isok = TRUE;
-        if(empty($name) && empty($ware) && empty($qua)){
+        if(empty($name) || empty($ware) || empty($qua)){
             $isok = FALSE;
         }
-        else{
-            if(!empty($name)){
-                $sql2 .= "name = \"$name\"";
-            }
-            if(!empty($ware)){
-                if(!empty($name)) $sql2 = $sql2.", ";
-                $sql2 .= "warehouse = \"$ware\"";
-            }
-            if(!empty($qua)){
-                if($qua<0){
-                    $isok = FALSE;
-                }
-                if(!empty($ware) || !empty($name)) $sql2 .= ", ";
-                $sql2 .= "quantity = $qua";
-
-            }
-            $sql = $sql1.$sql2.$sql3;
-            echo $sql;
-        }
         if($isok) {
-            $conn->query($sql);
+            $sql = "UPDATE staff set name = ?, warehouse = ?, quantity = ? where id=?";
+            $exe = $conn->execute_query($sql,[$name,$ware,$qua,$id]);
             if($conn->affected_rows>0) {
                 $_SESSION["SUCCESS"] = "Zmieniono rekord";
                 header("location:../pages/views/main.php");
@@ -59,7 +37,7 @@ if($conn->affected_rows > 0){
             header("location:../pages/views/main.php");
         }
         else {
-            $_SESSION["FAILURE"] = "Nie zmieniono rekordu";
+            $_SESSION["FAILURE"] = "Nie uzupelniono wszystkiego w tabeli";
             header("location:../pages/views/main.php");
         }
     }
@@ -71,14 +49,23 @@ if($conn->affected_rows > 0){
 
 }
 else{
-
-    $sql="INSERT INTO staff values (?,?,?,?)";
-    $conn->execute_query($sql,[$ean,$name,$ware,$qua]);
-    if($conn->affected_rows > 0){
-        $_SESSION["SUCCESS"] = "udało się dodać rekord";
+    $isok = TRUE;
+    if(empty($name) || empty($ware) || empty($qua)){
+        $isok = FALSE;
     }
-    else $_SESSION["FAILURE"] = "Nie udało się dodać rekordu";
-    header("location:../pages/views/main.php");
+    if($isok) {
+        $sql="INSERT INTO staff values (?,?,?,?)";
+        $conn->execute_query($sql,[$id,$name,$ware,$qua]);
+        if($conn->affected_rows > 0){
+            $_SESSION["SUCCESS"] = "udało się dodać rekord";
+        }
+        else $_SESSION["FAILURE"] = "Nie udało się dodać rekordu";
+        header("location:../pages/views/main.php");
+    }
+    else {
+        $_SESSION["FAILURE"] = "Nie uzupelniono wszystkiego w tabeli";
+        header("location:../pages/views/main.php");
+    }
     $conn->close();
     exit();
 }
