@@ -68,6 +68,7 @@ SHOWUSERS;
         <?php
             if(isset($_POST["new-role"])){
                 echo <<<CHANGE
+</br>
                 <form method="post" action="../../../scripts/change-role.php">
                 <input type="text" name="email" placeholder="email">
                 <select name="role">
@@ -80,7 +81,7 @@ SHOWUSERS;
 CHANGE;
             }
             if(isset($_POST["sub-change"])){
-                require_once "../../../scripts/change-role.php";
+//                require_once "../../../scripts/change-role.php";
             }
         ?>
     </div>
